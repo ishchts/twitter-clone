@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "start:client": "yarn workspace client start",
+    "start:server": "yarn workspace @twitter-clone/server start"
+  }
+}
