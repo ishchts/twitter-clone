@@ -1,10 +1,20 @@
 import React from 'react';
-import {Button} from "@mui/material";
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
-function App() {
-  return (
-    <div className="App"><Button>client</Button></div>
-  );
-}
+import { Auth } from './pages/auth';
+import { Home } from './pages/home';
 
-export default App;
+import { LoginModal } from './components/login-modal';
+
+export const App: React.FC = () => (
+  <Router>
+    <Routes>
+      <Route path="/" caseSensitive element={<Auth />}>
+        <Route path=":login" element={<LoginModal />} />
+        <Route path=":sign-in" element={<LoginModal />} />
+      </Route>
+      <Route path="home" element={<Home />} />
+      <Route path="explore" element={<div>explore</div>} />
+    </Routes>
+  </Router>
+);

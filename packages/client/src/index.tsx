@@ -3,12 +3,12 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 
 import ruLocale from 'date-fns/locale/ru';
-import {LocalizationProvider} from "@mui/lab";
+import { LocalizationProvider } from '@mui/lab';
 import DateAdapter from '@mui/lab/AdapterDateFns';
 
 import { store } from './store';
 
-import App from './app';
+import { App } from './app';
 
 import './index.css';
 
@@ -20,6 +20,5 @@ ReactDOM.render(
       </LocalizationProvider>
     </Provider>
   </React.StrictMode>,
-  document.getElementById('root')
+  document.getElementById('root'),
 );
-
