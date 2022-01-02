@@ -14,7 +14,7 @@ import PermIdentityIcon from '@mui/icons-material/PermIdentity';
 
 import { Side, SideContent, Nav } from './styles';
 
-export const Sidebar: React.FC = () => (
+export const Sidebar: React.FC = ({ children }) => (
   <Side>
     <SideContent>
       <IconButton component={Link} to="/home">
@@ -64,6 +64,9 @@ export const Sidebar: React.FC = () => (
           </ListItem>
         </List>
       </Nav>
+      {children && (
+        children
+      )}
     </SideContent>
   </Side>
 );

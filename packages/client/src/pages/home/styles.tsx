@@ -18,19 +18,6 @@ export const Content = styled('div')`
 
 export const RightSideBar = styled('aside')`
   width: 350px;
-`;
-
-export const TweetForm = styled('div')`
-  padding: 10px 16px 0 16px;
-  display: flex;
-  flex-wrap: wrap;
-  .MuiAvatar-root {
-    margin-right: 15px;
-  }
-  form {
-    flex-grow: 1;
-  }
-  svg {
-    width: 20px;
-  }
+  padding-left: 30px;
+  padding-top: 10px;
 `;

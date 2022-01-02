@@ -39,6 +39,11 @@
         "namedComponents": "arrow-function"
       }
     ],
-    "import/prefer-default-export": "off"
+    "import/prefer-default-export": "off",
+    "no-unused-vars": "warn",
+    "react/require-default-props": "off",
+    "no-param-reassign": [2, {
+      "props": false
+    }]
   }
 }
