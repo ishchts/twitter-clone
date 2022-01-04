@@ -1,9 +1,11 @@
 import { Request, Response } from 'express';
 import { validationResult } from 'express-validator';
+import jwt from 'jsonwebtoken';
 
 import { UserModel } from '../models/user-model';
 import { generateHash } from '../utils/generage-hash';
 import { sendEmail } from '../utils/send-email';
+import { isValidObjectId } from '../utils/is-valid-object-id';
 
 class _UserController {
   index = async (req: Request, res: Response) => {
@@ -34,7 +36,7 @@ class _UserController {
         email: req.body.email,
         username: req.body.username,
         fullName: req.body.fullName,
-        password: req.body.password,
+        password: generateHash(`${req.body.password}:${process.env.SECRET_HASH_KEY}`),
         confirmHash: generateHash(String(process.env.SECRET_HASH_KEY)),
       };
 
@@ -45,7 +47,7 @@ class _UserController {
         to: data.email,
         subject: 'Подтверждение почты Twitter Clone Tutorial',
         html: `Для того, чтобы подтвердить почту, перейдите
-          <a href="http://localhost:${process.env.PORT}/users/verify?hash=${data.confirmHash}">по этой ссылке</a>
+          <a href="http://localhost:${process.env.PORT}/auth/verify?hash=${data.confirmHash}">по этой ссылке</a>
         `,
       });
 
@@ -82,6 +84,67 @@ class _UserController {
 
       res.json({
         status: 'success',
+      });
+    } catch (e) {
+      res.json({
+        status: 'error',
+        message: JSON.stringify(e),
+      });
+    }
+  }
+
+  show = async (req: Request, res: Response) => {
+    try {
+      const userId = req.params.id;
+
+      if (!isValidObjectId(userId)) {
+        res.status(400).send();
+      }
+
+      const user = await UserModel.findById(userId).exec();
+
+      res.json({
+        status: 'success',
+        data: user,
+      });
+    } catch (e) {
+      res.json({
+        status: 'error',
+        message: JSON.stringify(e),
+      });
+    }
+  }
+
+  afterLogin = async (req: Request, res: Response) => {
+    try {
+      if (req.user) {
+        res.json({
+          status: 'success',
+          data: {
+            // @ts-ignore
+            ...req.user.toJSON(),
+            token: jwt.sign({ data: req.user }, String(process.env.SECRET_HASH_KEY), {
+              expiresIn: '30d',
+            }),
+          },
+        });
+      }
+    } catch (e) {
+      res.json({
+        status: 'error',
+        message: JSON.stringify(e),
+      });
+    }
+  }
+
+  getUserInfo = async (req: Request, res: Response) => {
+    try {
+      // @ts-ignore
+      const user = req.user.toJSON();
+
+      res.json({
+        status: 'success',
+        data: user,
       });
     } catch (e) {
       res.json({

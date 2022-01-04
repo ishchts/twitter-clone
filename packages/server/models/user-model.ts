@@ -18,18 +18,22 @@ const UserSchema = new Schema({
   password: {
     required: true,
     type: String,
+    select: false,
   },
   confirmHash: {
     required: true,
     type: String,
+    select: false,
   },
   location: String,
   confirmed: {
     type: Boolean,
     default: false,
+    select: false,
   },
   about: String,
   website: String,
+  timestamps: Boolean,
 });
 
 export const UserModel = model<{
