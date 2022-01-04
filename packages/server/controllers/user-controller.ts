@@ -10,7 +10,7 @@ import { isValidObjectId } from '../utils/is-valid-object-id';
 class _UserController {
   index = async (req: Request, res: Response) => {
     try {
-      const users = await UserModel.find({}).exec();
+      const users = await UserModel.find({}).populate('user').exec();
 
       res.json({
         status: 'success',

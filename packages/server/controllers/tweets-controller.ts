@@ -6,7 +6,11 @@ import { isValidObjectId } from '../utils/is-valid-object-id';
 class _TweetsController {
   index = async (req: Request, res: Response) => {
     try {
-      const users = await TweetModel.find({}).exec();
+      const users = await TweetModel
+        .find({})
+        .populate('user')
+        .sort({ createdAt: '-1' })
+        .exec();
 
       res.json({
         status: 'success',
@@ -68,7 +72,8 @@ class _TweetsController {
       const tweet = await TweetModel.create(data);
       res.json({
         status: 'success',
-        data: tweet,
+        // @ts-ignore
+        data: await tweet.populate('user').execPopulate(),
       });
     } catch (e) {
       res.json({
